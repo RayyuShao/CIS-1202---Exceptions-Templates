@@ -6,15 +6,13 @@
 using namespace std;
 
 // Custom exception classes
-class InvalidCharacterException : public exception {
-public:
+struct InvalidCharacterException : public exception {
     const char* what() const noexcept override {
         return "Invalid character. Only A-Z and a-z are allowed.";
     }
 };
 
-class InvalidRangeException : public exception {
-public:
+struct InvalidRangeException : public exception {
     const char* what() const noexcept override {
         return "Invalid offset. Only positive and negative offsets within the range of A-Z and a-z are allowed.";
     }
@@ -41,8 +39,8 @@ int main() {
         cout << "character('a', 1) returns: " << character('a', 1) << endl;
         cout << "character('a', -1) should throw an InvalidRangeException." << endl;
         cout << "character('Z', -1) returns: " << character('Z', -1) << endl;
-        cout << "character('?', 5) should throw an InvalidCharacterException." << endl;
-        cout << "character('A', 32) should throw an exception." << endl;
+        cout << "character('?', 5) should throw an InvalidCharacterException." << character('?', 5) << endl;
+        cout << "character('A', 32) should throw an exception." << character('A', 32) << endl;
     }
     catch (const InvalidCharacterException& e) {
         cerr << "Exception caught: " << e.what() << endl;
@@ -50,7 +48,7 @@ int main() {
     catch (const InvalidRangeException& e) {
         cerr << "Exception caught: " << e.what() << endl;
     }
-    catch (...) {
+    catch (const exception& e) {
         cerr << "Unknown exception caught." << endl;
     }
 
